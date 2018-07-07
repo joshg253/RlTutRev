@@ -1,8 +1,9 @@
 # RlTutRev
-following https://www.reddit.com/r/roguelikedev/comments/8ql895/roguelikedev_does_the_complete_roguelike_tutorial/
+Following the Roguelike Tutorial Revised at https://www.reddit.com/r/roguelikedev/comments/8ql895/roguelikedev_does_the_complete_roguelike_tutorial/
 
-
-## Getting started:
+## My Notes
+### Getting started
+#### Install libtcodpy
 (via https://github.com/libtcod/python-tcod)
 
 ```
