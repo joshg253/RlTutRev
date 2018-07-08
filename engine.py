@@ -1,3 +1,9 @@
+libtcod_dir = "/dev/libtcod-1.7.0-x86_64-msvc/"
+fonts_dir = libtcod_dir + "/data/fonts/"
+
+import sys
+sys.path.append(libtcod_dir + 'python/')
+
 import libtcodpy as libtcod
 
 from entity import Entity
@@ -24,7 +30,7 @@ def main():
     entities = [npc, player]
 
     libtcod.console_set_custom_font(
-        'arial10x10.png', libtcod.FONT_TYPE_GREYSCALE | libtcod.FONT_LAYOUT_TCOD)
+        fonts_dir + 'arial10x10.png', libtcod.FONT_TYPE_GREYSCALE | libtcod.FONT_LAYOUT_TCOD)
 
     libtcod.console_init_root(
         screen_width, screen_height, 'libtcod tutorial revised', False)
@@ -32,6 +38,7 @@ def main():
     con = libtcod.console_new(screen_width, screen_height)
 
     game_map = GameMap(map_width, map_height)
+    game_map.make_map()
 
     key = libtcod.Key()
     mouse = libtcod.Mouse()
