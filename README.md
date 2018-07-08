@@ -12,6 +12,7 @@ https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
 * Visual Studio Code x64
 * Python 3 (64-bit), from VS2017 install
 * GitHub
+
 Essentially open the project dir in VSCode, add/modify files directly, Ctrl-F5 to run, and using the built-in Terminal as needed.
 
 I also didn't like copying parts of a library & related files to my project dir, so made some modifications to import the files.
