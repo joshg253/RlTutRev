@@ -46,6 +46,7 @@ and further down for the font image's filepath:
 plylint was throwing Errors about not being able to import libtcod, even though everything is working fine when I hit Ctrl-F5. This comment fixed it for me:
 
 https://github.com/DonJayamanne/pythonVSCode/issues/1326#issuecomment-384637049
+
     gopaltirupur commented on Apr 26
 
     check correct setting of "python.linting.pylintArgs" - example given below
