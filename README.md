@@ -19,7 +19,7 @@ Essentially:
 * use the built-in Terminal as needed
 
 ## Link to library files instead of copying them to the project folder
-I also didn't like copying parts of a library & related files to my project dir, so made some modifications to import the files. It doesn't work perfectly, as VSCode still red-underlines some references that actually do work when you hit Ctrl-F5.
+I also didn't like copying parts of a library & related files to my project dir, so made some modifications to import the files.
 
 1. Downloaded latest MSVS-compiled x64 libtcod (libtcod-1.7.0-x86_64-msvc.zip) from https://bitbucket.org/libtcod/libtcod/downloads/
 2. Extracted to C:\dev\libtcod-1.7.0-x86_64-msvc
@@ -41,6 +41,20 @@ and further down for the font image's filepath:
         libtcod.FONT_TYPE_GREYSCALE | libtcod.FONT_LAYOUT_TCOD)
 
 ```
+
+### Make pylint in VSCode stop showing "unable to import" Errors
+plylint was throwing Errors about not being able to import libtcod, even though everything is working fine when I hit Ctrl-F5. This comment fixed it for me:
+
+https://github.com/DonJayamanne/pythonVSCode/issues/1326#issuecomment-384637049
+    gopaltirupur commented on Apr 26
+
+    check correct setting of "python.linting.pylintArgs" - example given below
+
+    "python.linting.pylintArgs": [
+    "--load-plugins",
+    "pylint_django"
+    ]
+
 ## P.S.
 ### Markdown Cheatsheet
 https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
