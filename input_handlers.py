@@ -1,5 +1,9 @@
-import libtcodpy as libtcod
+libtcod_dir = "/dev/libtcod-1.7.0-x86_64-msvc/"
 
+import sys
+sys.path.append(libtcod_dir + 'python/')
+
+import libtcodpy as libtcod
 
 def handle_keys(key):
     # Movement keys
