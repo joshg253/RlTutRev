@@ -23,7 +23,6 @@ def render_all(con, entities, game_map, fov_map, fov_recompute, screen_width, sc
                             con, x, y, colors.get('light_ground'), libtcod.BKGND_SET)
 
                     game_map.tiles[x][y].explored = True
-
                 elif game_map.tiles[x][y].explored:
                     if wall:
                         libtcod.console_set_char_background(
@@ -53,5 +52,4 @@ def draw_entity(con, entity, fov_map):
 
 def clear_entity(con, entity):
     # erase the character that represents this object
-    libtcod.console_put_char(
-        con, entity.x, entity.y, ' ', libtcod.BKGND_NONE)
+    libtcod.console_put_char(con, entity.x, entity.y, ' ', libtcod.BKGND_NONE)
