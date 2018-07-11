@@ -5,6 +5,7 @@ sys.path.append(libtcod_dir + 'python/')
 
 import libtcodpy as libtcod
 
+
 def handle_keys(key):
     # Movement keys
     if key.vk == libtcod.KEY_UP:
@@ -19,7 +20,6 @@ def handle_keys(key):
     if key.vk == libtcod.KEY_ENTER and key.lalt:
         # Alt+Enter: toggle full screen
         return {'fullscreen': True}
-
     elif key.vk == libtcod.KEY_ESCAPE:
         # Exit the game
         return {'exit': True}

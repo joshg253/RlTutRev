@@ -1,8 +1,5 @@
 class Rect:
-    """
-    A rectangle on the map. used to characterize a room.
-    """
-
+    # a rectangle on the map. used to characterize a room.
     def __init__(self, x, y, w, h):
         self.x1 = x
         self.y1 = y

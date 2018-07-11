@@ -7,6 +7,7 @@ import libtcodpy as libtcod
 from random import randint
 
 from entity import Entity
+
 from map_objects.rectangle import Rect
 from map_objects.tile import Tile
 
@@ -23,7 +24,8 @@ class GameMap:
 
         return tiles
 
-    def make_map(self, max_rooms, room_min_size, room_max_size, map_width, map_height, player, entities, max_monsters_per_room):
+    def make_map(self, max_rooms, room_min_size, room_max_size, map_width, map_height, player, entities,
+                 max_monsters_per_room):
         rooms = []
         num_rooms = 0
 
@@ -104,13 +106,12 @@ class GameMap:
             x = randint(room.x1 + 1, room.x2 - 1)
             y = randint(room.y1 + 1, room.y2 - 1)
 
+            # Check if an entity is already in that location
             if not any([entity for entity in entities if entity.x == x and entity.y == y]):
                 if randint(0, 100) < 80:
-                    # 80% chance of Orc
                     monster = Entity(
                         x, y, 'o', libtcod.desaturated_green, 'Orc', blocks=True)
                 else:
-                    # 20% chance of Troll
                     monster = Entity(
                         x, y, 'T', libtcod.darker_green, 'Troll', blocks=True)
 

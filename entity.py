@@ -22,4 +22,4 @@ def get_blocking_entities_at_location(entities, destination_x, destination_y):
         if entity.blocks and entity.x == destination_x and entity.y == destination_y:
             return entity
 
-        return None
+    return None
