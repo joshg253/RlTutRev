@@ -7,7 +7,7 @@ Following the [Roguelike Tutorial Revised](https://www.reddit.com/r/roguelikedev
 ### I'm using:
 * Windows 10 Pro x64
 * Visual Studio Code x64
-* Python 3 (64-bit), from VS2017 install
+* Python 3.7 (64-bit), installed via choco
 * GitHub
 
 Essentially:
