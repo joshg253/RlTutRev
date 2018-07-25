@@ -12,9 +12,13 @@ from components.item import Item
 
 from entity import Entity
 
+<<<<<<< HEAD
 from game_messages import Message
 
 from item_functions import cast_confuse, cast_fireball, cast_lightning, heal
+=======
+from item_functions import heal
+>>>>>>> 6ba04fdcd042ec89bc186896c81fbae760f00e57
 
 from map_objects.rectangle import Rect
 from map_objects.tile import Tile
@@ -34,8 +38,13 @@ class GameMap:
 
         return tiles
 
+<<<<<<< HEAD
     def make_map(self, max_rooms, room_min_size, room_max_size, map_width, map_height, player,
                  entities, max_monsters_per_room, max_items_per_room):
+=======
+    def make_map(self, max_rooms, room_min_size, room_max_size, map_width, map_height, player, entities,
+                 max_monsters_per_room, max_items_per_room):
+>>>>>>> 6ba04fdcd042ec89bc186896c81fbae760f00e57
         rooms = []
         num_rooms = 0
 
@@ -133,9 +142,14 @@ class GameMap:
                     fighter_component = Fighter(hp=16, defense=1, power=4)
                     ai_component = BasicMonster()
 
+<<<<<<< HEAD
                     monster = Entity(x, y, 'T', libtcod.darker_green, 'Troll', blocks=True,
                                      fighter=fighter_component, render_order=RenderOrder.ACTOR,
                                      ai=ai_component)
+=======
+                    monster = Entity(x, y, 'T', libtcod.darker_green, 'Troll', blocks=True, fighter=fighter_component,
+                                     render_order=RenderOrder.ACTOR, ai=ai_component)
+>>>>>>> 6ba04fdcd042ec89bc186896c81fbae760f00e57
 
                 entities.append(monster)
 
@@ -144,6 +158,7 @@ class GameMap:
             y = randint(room.y1 + 1, room.y2 - 1)
 
             if not any([entity for entity in entities if entity.x == x and entity.y == y]):
+<<<<<<< HEAD
                 item_chance = randint(0, 100)
 
                 if item_chance < 70:
@@ -169,6 +184,12 @@ class GameMap:
                         use_function=cast_lightning, damage=20, maximum_range=5)
                     item = Entity(x, y, '#', libtcod.yellow, 'Lightning Scroll',
                                   render_order=RenderOrder.ITEM, item=item_component)
+=======
+                item_component = Item(use_function=heal, amount=4)
+                item = Entity(x, y, '!', libtcod.violet, 'Healing Potion', render_order=RenderOrder.ITEM,
+                              item=item_component)
+
+>>>>>>> 6ba04fdcd042ec89bc186896c81fbae760f00e57
                 entities.append(item)
 
     def is_blocked(self, x, y):

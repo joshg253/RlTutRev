@@ -70,8 +70,13 @@ def main():
     panel = libtcod.console_new(screen_width, panel_height)
 
     game_map = GameMap(map_width, map_height)
+<<<<<<< HEAD
     game_map.make_map(max_rooms, room_min_size, room_max_size, map_width, map_height, player,
                       entities, max_monsters_per_room, max_items_per_room)
+=======
+    game_map.make_map(max_rooms, room_min_size, room_max_size, map_width, map_height, player, entities,
+                      max_monsters_per_room, max_items_per_room)
+>>>>>>> 6ba04fdcd042ec89bc186896c81fbae760f00e57
 
     fov_recompute = True
 
@@ -84,8 +89,11 @@ def main():
 
     game_state = GameStates.PLAYERS_TURN
     previous_game_state = game_state
+<<<<<<< HEAD
 
     targeting_item = None
+=======
+>>>>>>> 6ba04fdcd042ec89bc186896c81fbae760f00e57
 
     while not libtcod.console_is_window_closed():
         libtcod.sys_check_for_event(
@@ -95,9 +103,14 @@ def main():
             recompute_fov(fov_map, player.x, player.y, fov_radius,
                           fov_light_walls, fov_algorithm)
 
+<<<<<<< HEAD
         render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, message_log,
                    screen_width, screen_height, bar_width, panel_height, panel_y, mouse, colors,
                    game_state)
+=======
+        render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, message_log, screen_width,
+                   screen_height, bar_width, panel_height, panel_y, mouse, colors, game_state)
+>>>>>>> 6ba04fdcd042ec89bc186896c81fbae760f00e57
 
         fov_recompute = False
 
@@ -106,7 +119,10 @@ def main():
         clear_all(con, entities)
 
         action = handle_keys(key, game_state)
+<<<<<<< HEAD
         mouse_action = handle_mouse(mouse)
+=======
+>>>>>>> 6ba04fdcd042ec89bc186896c81fbae760f00e57
 
         move = action.get('move')
         pickup = action.get('pickup')
@@ -164,6 +180,7 @@ def main():
             item = player.inventory.items[inventory_index]
 
             if game_state == GameStates.SHOW_INVENTORY:
+<<<<<<< HEAD
                 player_turn_results.extend(player.inventory.use(
                     item, entities=entities, fov_map=fov_map))
             elif game_state == GameStates.DROP_INVENTORY:
@@ -185,6 +202,15 @@ def main():
                 game_state = previous_game_state
             elif game_state == GameStates.TARGETING:
                 player_turn_results.append({'targeting_cancelled': True})
+=======
+                player_turn_results.extend(player.inventory.use(item))
+            elif game_state == GameStates.DROP_INVENTORY:
+                player_turn_results.extend(player.inventory.drop_item(item))
+
+        if exit:
+            if game_state in (GameStates.SHOW_INVENTORY, GameStates.DROP_INVENTORY):
+                game_state = previous_game_state
+>>>>>>> 6ba04fdcd042ec89bc186896c81fbae760f00e57
             else:
                 return True
 
@@ -197,8 +223,11 @@ def main():
             item_added = player_turn_result.get('item_added')
             item_consumed = player_turn_result.get('consumed')
             item_dropped = player_turn_result.get('item_dropped')
+<<<<<<< HEAD
             targeting = player_turn_result.get('targeting')
             targeting_cancelled = player_turn_result.get('targeting_cancelled')
+=======
+>>>>>>> 6ba04fdcd042ec89bc186896c81fbae760f00e57
 
             if message:
                 message_log.add_message(message)
@@ -224,6 +253,7 @@ def main():
             if item_consumed:
                 game_state = GameStates.ENEMY_TURN
 
+<<<<<<< HEAD
             if targeting:
                 previous_game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.TARGETING
@@ -232,6 +262,8 @@ def main():
 
                 message_log.add_message(targeting_item.item.targeting_message)
 
+=======
+>>>>>>> 6ba04fdcd042ec89bc186896c81fbae760f00e57
             if item_dropped:
                 entities.append(item_dropped)
 

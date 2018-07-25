@@ -13,8 +13,11 @@ def handle_keys(key, game_state):
         return handle_player_turn_keys(key)
     elif game_state == GameStates.PLAYER_DEAD:
         return handle_player_dead_keys(key)
+<<<<<<< HEAD
     elif game_state == GameStates.TARGETING:
         return handle_targeting_keys(key)
+=======
+>>>>>>> 6ba04fdcd042ec89bc186896c81fbae760f00e57
     elif game_state in (GameStates.SHOW_INVENTORY, GameStates.DROP_INVENTORY):
         return handle_inventory_keys(key)
 
@@ -62,6 +65,7 @@ def handle_player_turn_keys(key):
     return {}
 
 
+<<<<<<< HEAD
 def handle_targeting_keys(key):
     if key.vk == libtcod.KEY_ESCAPE:
         return {'exit': True}
@@ -69,6 +73,8 @@ def handle_targeting_keys(key):
     return {}
 
 
+=======
+>>>>>>> 6ba04fdcd042ec89bc186896c81fbae760f00e57
 def handle_player_dead_keys(key):
     key_char = chr(key.c)
 
@@ -99,6 +105,7 @@ def handle_inventory_keys(key):
         return {'exit': True}
 
     return {}
+<<<<<<< HEAD
 
 
 def handle_mouse(mouse):
@@ -110,3 +117,5 @@ def handle_mouse(mouse):
         return {'right_click': (x, y)}
 
     return {}
+=======
+>>>>>>> 6ba04fdcd042ec89bc186896c81fbae760f00e57

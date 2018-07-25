@@ -1,7 +1,10 @@
 import libtcodpy as libtcod
 
+<<<<<<< HEAD
 from components.ai import ConfusedMonster
 
+=======
+>>>>>>> 6ba04fdcd042ec89bc186896c81fbae760f00e57
 from game_messages import Message
 
 
@@ -20,6 +23,7 @@ def heal(*args, **kwargs):
             'Your wounds start to feel better!', libtcod.green)})
 
     return results
+<<<<<<< HEAD
 
 
 def cast_lightning(*args, **kwargs):
@@ -112,3 +116,5 @@ def cast_confuse(*args, **kwargs):
             'There is no targetable enemy at that location.', libtcod.yellow)})
 
     return results
+=======
+>>>>>>> 6ba04fdcd042ec89bc186896c81fbae760f00e57
