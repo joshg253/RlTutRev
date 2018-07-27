@@ -144,3 +144,6 @@ $RECYCLE.BIN/
 
 
 # End of https://www.gitignore.io/api/python,windows,visualstudiocode
+
+# savegame files
+savegame.*
