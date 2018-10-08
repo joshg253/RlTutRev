@@ -24,7 +24,7 @@ Essentially:
 
 I also didn't like copying parts of a library & related files to my project dir, so made some modifications to import the files.
 
-1. Downloaded latest MSVS-compiled x64 libtcod (libtcod-1.7.0-x86_64-msvc.zip) from https://bitbucket.org/libtcod/libtcod/downloads/
+1. Downloaded latest MSVS-compiled x64 libtcod (libtcod-1.7.0-x86_64-msvc.zip) from https://github.com/libtcod/libtcod/releases
 2. Extracted to D:\dev\libtcod-1.7.0-x86_64-msvc
 3. Modified the top of the main "engine.py" file:
 
