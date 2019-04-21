@@ -8,14 +8,14 @@ Following the [Roguelike Tutorial Revised](https://www.reddit.com/r/roguelikedev
 
 * Windows 10 Pro x64
 * Visual Studio Code x64
-* Python 3.7 (64-bit), installed via choco
+* Python 3.7.3 (64-bit), installed via choco
 * GitHub
 
 Essentially:
 
 * open the project dir in VSCode
 * add/modify files in VSCode
-* Ctrl-F5 to run
+* F5 (or Ctrl-F5) to run
 * use VSCode's Source Control panel to Commit locally
 * and then VSCode's Status Bar to create new branches and sync to GitHub
 * use the built-in Terminal as needed
@@ -25,11 +25,11 @@ Essentially:
 I also didn't like copying parts of a library & related files to my project dir, so made some modifications to import the files.
 
 1. Downloaded latest MSVS-compiled x64 libtcod (libtcod-1.10.0-x86_64-msvc.zip) from https://github.com/libtcod/libtcod/releases
-2. Extracted to D:\dev\libtcod-1.10.0-x86_64-msvc
+2. Extracted to D:\dev\libtcod-1.11.3-x86_64-msvc
 3. Modified the top of the main "engine.py" file:
 
 ```Python
-    libtcod_dir = "/dev/libtcod-1.10.0-x86_64-msvc/"
+    libtcod_dir = "/dev/libtcod-1.11.3-x86_64-msvc/"
     fonts_dir = libtcod_dir + "/data/fonts/"
 
     import sys
