@@ -1,4 +1,4 @@
-libtcod_dir = "/dev/libtcod-1.12.1-x86_64-msvc/"
+libtcod_dir = "/dev/libtcod-1.12.2-x86_64-msvc/"
 fonts_dir = libtcod_dir + "/data/fonts/"
 
 import sys
