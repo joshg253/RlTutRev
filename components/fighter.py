@@ -1,4 +1,4 @@
-libtcod_dir = "/dev/libtcod-1.12.2-x86_64-msvc/"
+libtcod_dir = "/dev/libtcod-1.12.3-x86_64-msvc/"
 
 import sys
 sys.path.append(libtcod_dir + 'python/')
