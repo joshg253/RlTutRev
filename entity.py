@@ -1,14 +1,9 @@
-libtcod_dir = "/dev/libtcod-1.15.0-x86_64-msvc/"
-
-import sys
-sys.path.append(libtcod_dir + 'python/')
-
-import libtcodpy as libtcod
-
 import math
+import sys
+
+import tcod as libtcod
 
 from components.item import Item
-
 from render_functions import RenderOrder
 
 
@@ -17,9 +12,24 @@ class Entity:
     A generic object to represent players, enemies, items, etc.
     """
 
-    def __init__(self, x, y, char, color, name, blocks=False,
-                 render_order=RenderOrder.CORPSE, fighter=None, ai=None, item=None,
-                 inventory=None, stairs=None, level=None, equipment=None, equippable=None):
+    def __init__(
+        self,
+        x,
+        y,
+        char,
+        color,
+        name,
+        blocks=False,
+        render_order=RenderOrder.CORPSE,
+        fighter=None,
+        ai=None,
+        item=None,
+        inventory=None,
+        stairs=None,
+        level=None,
+        equipment=None,
+        equippable=None,
+    ):
         self.x = x
         self.y = y
         self.char = char
@@ -78,8 +88,10 @@ class Entity:
         dx = int(round(dx / distance))
         dy = int(round(dy / distance))
 
-        if not (game_map.is_blocked(self.x + dx, self.y + dy) or
-                get_blocking_entities_at_location(entities, self.x + dx, self.y + dy)):
+        if not (
+            game_map.is_blocked(self.x + dx, self.y + dy)
+            or get_blocking_entities_at_location(entities, self.x + dx, self.y + dy)
+        ):
             self.move(dx, dy)
 
     def distance(self, x, y):
@@ -97,8 +109,13 @@ class Entity:
         # Scan the current map each turn and set all the walls as unwalkable
         for y1 in range(game_map.height):
             for x1 in range(game_map.width):
-                libtcod.map_set_properties(fov, x1, y1, not game_map.tiles[x1][y1].block_sight,
-                                           not game_map.tiles[x1][y1].blocked)
+                libtcod.map_set_properties(
+                    fov,
+                    x1,
+                    y1,
+                    not game_map.tiles[x1][y1].block_sight,
+                    not game_map.tiles[x1][y1].blocked,
+                )
 
         # Scan all the objects to see if there are objects that must be navigated around
         # Check also that the object isn't self or the target (so that the start and the end points are free)
@@ -106,8 +123,7 @@ class Entity:
         for entity in entities:
             if entity.blocks and entity != self and entity != target:
                 # Set the tile as a wall so it must be navigated around
-                libtcod.map_set_properties(
-                    fov, entity.x, entity.y, True, False)
+                libtcod.map_set_properties(fov, entity.x, entity.y, True, False)
 
         # Allocate a A* path
         # The 1.41 is the normal diagonal cost of moving, it can be set as 0.0 if diagonal moves are prohibited
