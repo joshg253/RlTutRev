@@ -8,7 +8,7 @@ Following the [Roguelike Tutorial Revised](https://www.reddit.com/r/roguelikedev
 
 * Windows 10 Pro x64
 * Visual Studio Code x64
-* Python 3.7.4 (64-bit), installed via exe from python.org
+* Python 3.7.5 (64-bit), installed via exe from python.org
 * GitHub
 
 Essentially:
