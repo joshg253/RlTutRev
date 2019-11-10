@@ -20,34 +20,6 @@ Essentially:
 * and then VSCode's Status Bar to create new branches and sync to GitHub
 * use the built-in Terminal as needed
 
-## Link to library files instead of copying them to the project folder
-
-I also didn't like copying parts of a library & related files to my project dir, so made some modifications to import the files.
-
-1. Downloaded latest MSVS-compiled x64 libtcod (libtcod-1.15.0-x86_64-msvc.zip) from https://github.com/libtcod/libtcod/releases
-2. Extracted to D:\dev\libtcod-1.15.0-x86_64-msvc
-3. Modified the top of the main "engine.py" file:
-
-```Python
-    libtcod_dir = "/dev/libtcod-1.15.0-x86_64-msvc/"
-    fonts_dir = libtcod_dir + "/data/fonts/"
-
-    import sys
-    sys.path.append(libtcod_dir + 'python/')
-
-    import libtcodpy as libtcod
-    ...
-```
-
-and further down for the font image's filepath:
-
-```Python
-    libtcod.console_set_custom_font(
-        fonts_dir + 'arial10x10.png',
-        libtcod.FONT_TYPE_GREYSCALE | libtcod.FONT_LAYOUT_TCOD)
-
-```
-
 ### Make pylint in VSCode stop showing "unable to import" Errors
 
 plylint was throwing Errors about not being able to import libtcod, even though everything is working fine when I hit Ctrl-F5. This comment fixed it for me:

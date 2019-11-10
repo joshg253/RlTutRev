@@ -1,11 +1,7 @@
-libtcod_dir = "/dev/libtcod-1.8.0-x86_64-msvc/"
-
 import sys
-sys.path.append(libtcod_dir + 'python/')
-
-import libtcodpy as libtcod
-
 from random import randint
+
+import tcod as libtcod
 
 from game_messages import Message
 
@@ -45,7 +41,13 @@ class ConfusedMonster:
             self.number_of_turns -= 1
         else:
             self.owner.ai = self.previous_ai
-            results.append({'message': Message(
-                'The {0} is no longer confused!'.format(self.owner.name), libtcod.red)})
+            results.append(
+                {
+                    "message": Message(
+                        "The {0} is no longer confused!".format(self.owner.name),
+                        libtcod.red,
+                    )
+                }
+            )
 
         return results

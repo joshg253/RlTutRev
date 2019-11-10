@@ -1,6 +1,6 @@
-import libtcodpy as libtcod
-
 import textwrap
+
+import tcod as libtcod
 
 
 class Message:
