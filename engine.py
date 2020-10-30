@@ -123,7 +123,7 @@ def play_game(
     key = libtcod.Key()
     mouse = libtcod.Mouse()
 
-    if game_state == None:
+    if game_state is None:
         game_state = GameStates.PLAYERS_TURN
     previous_game_state = game_state
 

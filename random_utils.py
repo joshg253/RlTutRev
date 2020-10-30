@@ -13,13 +13,11 @@ def random_choice_index(chances):
     random_chance = randint(1, sum(chances))
 
     running_sum = 0
-    choice = 0
-    for w in chances:
+    for choice, w in enumerate(chances):
         running_sum += w
 
         if random_chance <= running_sum:
             return choice
-        choice += 1
 
 
 def random_choice_from_dict(choice_dict):

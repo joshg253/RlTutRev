@@ -50,7 +50,7 @@ def get_constants():
         "light_ground": libtcod.Color(200, 180, 50),
     }
 
-    constants = {
+    return {
         "window_title": window_title,
         "screen_width": screen_width,
         "screen_height": screen_height,
@@ -72,8 +72,6 @@ def get_constants():
         "max_items_per_room": max_items_per_room,
         "colors": colors,
     }
-
-    return constants
 
 
 def get_game_variables(constants):
