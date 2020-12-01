@@ -27,9 +27,7 @@ class GameMap:
         self.dungeon_level = dungeon_level
 
     def initialize_tiles(self):
-        tiles = [[Tile(True) for y in range(self.height)] for x in range(self.width)]
-
-        return tiles
+        return [[Tile(True) for y in range(self.height)] for x in range(self.width)]
 
     def make_map(
         self,
@@ -47,7 +45,7 @@ class GameMap:
         center_of_last_room_x = None
         center_of_last_room_y = None
 
-        for r in range(max_rooms):
+        for _ in range(max_rooms):
             # random width and height
             w = randint(room_min_size, room_max_size)
             h = randint(room_min_size, room_max_size)
@@ -158,14 +156,14 @@ class GameMap:
             "confusion_scroll": from_dungeon_level([[10, 2]], self.dungeon_level),
         }
 
-        for i in range(number_of_monsters):
+        for _ in range(number_of_monsters):
             # Choose a random location in the room
             x = randint(room.x1 + 1, room.x2 - 1)
             y = randint(room.y1 + 1, room.y2 - 1)
 
             # Check if an entity is already in that location
             if not any(
-                [entity for entity in entities if entity.x == x and entity.y == y]
+                entity for entity in entities if entity.x == x and entity.y == y
             ):
 
                 monster_choice = random_choice_from_dict(monster_chances)
@@ -205,7 +203,7 @@ class GameMap:
 
                 entities.append(monster)
 
-        for i in range(number_of_items):
+        for _ in range(number_of_items):
             x = randint(room.x1 + 1, room.x2 - 1)
             y = randint(room.y1 + 1, room.y2 - 1)
 
@@ -299,10 +297,7 @@ class GameMap:
                 entities.append(item)
 
     def is_blocked(self, x, y):
-        if self.tiles[x][y].blocked:
-            return True
-
-        return False
+        return bool(self.tiles[x][y].blocked)
 
     def next_floor(self, player, message_log, constants):
         self.dungeon_level += 1
