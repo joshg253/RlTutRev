@@ -70,11 +70,19 @@ jobs:
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
 
-    - name: PMD Source Code Analyzer Action
-      uses: sfdx-actions/setup-pmd@v1
 
     - name: PMD Analyser
+    # You may pin to the exact commit or the version.
+    # uses: synergy-au/pmd-analyser-action@9be6f68e069bf6f6e476bee32e5e506d94667153
       uses: synergy-au/pmd-analyser-action@v1
-
-    - name: PMD Source Code Analyzer Action - Fix
-      uses: mcanog/setup-pmd@9.2
+      with:
+        # Used to determine whether you just want to analyse the files changed or the whole repository.
+        analyse-all-code: # optional, default is false
+        # If you wish to define rules that log as an error, enter each rule name separated with a comma and no spaces. Note that if an error is identified the run will fail. e.g. ClassNamingConventions,GuardLogStatement
+        error-rules: # optional
+        # Path to the sources to analyse. This can be a file name, a directory, or a jar or zip file containing the sources.
+        file-path: 
+        # The version of PMD you would like to run.
+        pmd-version: 6.29 # optional, default is 6.28.0
+        # The ruleset file you want to use. PMD uses xml configuration files, called rulesets, which specify which rules to execute on your sources. You can also run a single rule by referencing it using its category and name (more details here). For example, you can check for unnecessary modifiers on Java sources with -R category/java/codestyle.xml/UnnecessaryModifier.
+        rules-path: 
