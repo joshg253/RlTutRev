@@ -1,7 +1,6 @@
-import sys
 from random import randint
 
-import tcod as libtcod
+import tcod
 
 from game_messages import Message
 
@@ -11,7 +10,7 @@ class BasicMonster:
         results = []
 
         monster = self.owner
-        if libtcod.map_is_in_fov(fov_map, monster.x, monster.y):
+        if tcod.map_is_in_fov(fov_map, monster.x, monster.y):
 
             if monster.distance_to(target) >= 2:
                 monster.move_astar(target, entities, game_map)
@@ -44,8 +43,9 @@ class ConfusedMonster:
             results.append(
                 {
                     "message": Message(
-                        "The {0} is no longer confused!".format(self.owner.name),
-                        libtcod.red,
+                        "The {0} is no longer confused!".format(
+                            self.owner.name),
+                        tcod.red,
                     )
                 }
             )

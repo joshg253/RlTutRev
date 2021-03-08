@@ -1,6 +1,4 @@
-import sys
-
-import tcod as libtcod
+import tcod
 
 from game_messages import Message
 
@@ -68,7 +66,7 @@ class Fighter:
                         "{0} attacks {1} for {2} hit points.".format(
                             self.owner.name.capitalize(), target.name, str(damage)
                         ),
-                        libtcod.white,
+                        tcod.white,
                     )
                 }
             )
@@ -80,7 +78,7 @@ class Fighter:
                         "{0} attacks {1} but does no damage.".format(
                             self.owner.name.capitalize(), target.name
                         ),
-                        libtcod.white,
+                        tcod.white,
                     )
                 }
             )

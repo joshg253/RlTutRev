@@ -1,6 +1,4 @@
-import sys
-
-import tcod as libtcod
+import tcod
 
 from game_states import GameStates
 
@@ -26,13 +24,13 @@ def handle_player_turn_keys(key):
     key_char = chr(key.c)
 
     # Movement keys
-    if key.vk == libtcod.KEY_UP or key_char == "k":
+    if key.vk == tcod.KEY_UP or key_char == "k":
         return {"move": (0, -1)}
-    elif key.vk == libtcod.KEY_DOWN or key_char == "j":
+    elif key.vk == tcod.KEY_DOWN or key_char == "j":
         return {"move": (0, 1)}
-    elif key.vk == libtcod.KEY_LEFT or key_char == "h":
+    elif key.vk == tcod.KEY_LEFT or key_char == "h":
         return {"move": (-1, 0)}
-    elif key.vk == libtcod.KEY_RIGHT or key_char == "l":
+    elif key.vk == tcod.KEY_RIGHT or key_char == "l":
         return {"move": (1, 0)}
     elif key_char == "y":
         return {"move": (-1, -1)}
@@ -54,16 +52,16 @@ def handle_player_turn_keys(key):
     elif key_char == "d":
         return {"drop_inventory": True}
 
-    elif key.vk == libtcod.KEY_ENTER:
+    elif key.vk == tcod.KEY_ENTER:
         return {"take_stairs": True}
 
     elif key_char == "c":
         return {"show_character_screen": True}
 
-    if key.vk == libtcod.KEY_ENTER and key.lalt:
+    if key.vk == tcod.KEY_ENTER and key.lalt:
         # Alt+Enter: toggle full screen
         return {"fullscreen": True}
-    elif key.vk == libtcod.KEY_ESCAPE:
+    elif key.vk == tcod.KEY_ESCAPE:
         # Exit the game
         return {"exit": True}
 
@@ -72,7 +70,7 @@ def handle_player_turn_keys(key):
 
 
 def handle_targeting_keys(key):
-    if key.vk == libtcod.KEY_ESCAPE:
+    if key.vk == tcod.KEY_ESCAPE:
         return {"exit": True}
 
     return {}
@@ -84,10 +82,10 @@ def handle_player_dead_keys(key):
     if key_char == "i":
         return {"show_inventory": True}
 
-    if key.vk == libtcod.KEY_ENTER and key.lalt:
+    if key.vk == tcod.KEY_ENTER and key.lalt:
         # Alt+Enter: toggle full screen
         return {"fullscreen": True}
-    elif key.vk == libtcod.KEY_ESCAPE:
+    elif key.vk == tcod.KEY_ESCAPE:
         # Exit the menu
         return {"exit": True}
 
@@ -100,10 +98,10 @@ def handle_inventory_keys(key):
     if index >= 0:
         return {"inventory_index": index}
 
-    if key.vk == libtcod.KEY_ENTER and key.lalt:
+    if key.vk == tcod.KEY_ENTER and key.lalt:
         # Alt+Enter: toggle full screen
         return {"fullscreen": True}
-    elif key.vk == libtcod.KEY_ESCAPE:
+    elif key.vk == tcod.KEY_ESCAPE:
         # Exit the menu
         return {"exit": True}
 
@@ -117,7 +115,7 @@ def handle_main_menu(key):
         return {"new_game": True}
     elif key_char == "b":
         return {"load_game": True}
-    elif key_char == "c" or key.vk == libtcod.KEY_ESCAPE:
+    elif key_char == "c" or key.vk == tcod.KEY_ESCAPE:
         return {"exit": True}
 
     return {}
@@ -138,7 +136,7 @@ def handle_level_up_menu(key):
 
 
 def handle_character_screen(key):
-    if key.vk == libtcod.KEY_ESCAPE:
+    if key.vk == tcod.KEY_ESCAPE:
         return {"exit": True}
 
     return {}

@@ -1,12 +1,33 @@
 {
-    "python.pythonPath": "C:\\Python39\\python.exe",
-    "python.linting.pylintEnabled": true,
-    "python.linting.enabled": true,
-    "python.jediEnabled": true,
-    "python.linting.flake8Enabled": false,
-    "python.linting.pylintArgs": [
-        "--load-plugins",
-        "pylint_django"
+    "editor.autoIndent": "advanced",
+    "editor.detectIndentation": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "editor.multiCursorModifier": "ctrlCmd",
+    "editor.rulers": [
+        100, // <- a ruler in the default color or as customized at column 0
+        {
+            "column": 120,
+            "color": "#ff0000"
+        },
     ],
-    "python.languageServer": "Jedi"
+    "editor.snippetSuggestions": "top",
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "git.enableCommitSigning": true,
+    "python.languageServer": "Pylance",
+    "python.pythonPath": "C:\\Program Files\\Python39\\python.exe",
+    "[git-commit]": {
+        "editor.rulers": [
+            50
+        ]
+    },
+    "[python]": {
+        "editor.rulers": [
+            {
+                "column": 79,
+                "color": "#424142"
+            }
+        ]
+    }
 }

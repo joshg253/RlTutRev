@@ -1,6 +1,4 @@
-import sys
-
-import tcod as libtcod
+import tcod
 
 from death_functions import kill_monster, kill_player
 from entity import get_blocking_entities_at_location
@@ -17,21 +15,22 @@ from render_functions import clear_all, render_all
 def main():
     constants = get_constants()
 
-    libtcod.console_set_custom_font(
-        "arial10x10.png", libtcod.FONT_TYPE_GREYSCALE | libtcod.FONT_LAYOUT_TCOD
+    tcod.console_set_custom_font(
+        "arial10x10.png", tcod.FONT_TYPE_GREYSCALE | tcod.FONT_LAYOUT_TCOD
     )
 
-    libtcod.console_init_root(
+    tcod.console_init_root(
         constants["screen_width"],
         constants["screen_height"],
         constants["window_title"],
         False,
-        libtcod.RENDERER_SDL2,
+        tcod.RENDERER_SDL2,
         vsync=True,
     )
 
-    con = libtcod.console.Console(constants["screen_width"], constants["screen_height"])
-    panel = libtcod.console.Console(
+    con = tcod.console.Console(
+        constants["screen_width"], constants["screen_height"])
+    panel = tcod.console.Console(
         constants["screen_width"], constants["panel_height"]
     )
 
@@ -44,14 +43,14 @@ def main():
     show_main_menu = True
     show_load_error_message = False
 
-    main_menu_background_image = libtcod.image_load("menu_background1.png")
+    main_menu_background_image = tcod.image_load("menu_background1.png")
 
-    key = libtcod.Key()
-    mouse = libtcod.Mouse()
+    key = tcod.Key()
+    mouse = tcod.Mouse()
 
-    while not libtcod.console_is_window_closed():
-        libtcod.sys_check_for_event(
-            libtcod.EVENT_KEY_PRESS | libtcod.EVENT_MOUSE, key, mouse
+    while not tcod.console_is_window_closed():
+        tcod.sys_check_for_event(
+            tcod.EVENT_KEY_PRESS | tcod.EVENT_MOUSE, key, mouse
         )
 
         if show_main_menu:
@@ -71,7 +70,7 @@ def main():
                     constants["screen_height"],
                 )
 
-            libtcod.console_flush()
+            tcod.console_flush()
 
             action = handle_main_menu(key)
 
@@ -120,8 +119,8 @@ def play_game(
 
     fov_map = initialize_fov(game_map)
 
-    key = libtcod.Key()
-    mouse = libtcod.Mouse()
+    key = tcod.Key()
+    mouse = tcod.Mouse()
 
     if game_state is None:
         game_state = GameStates.PLAYERS_TURN
@@ -129,9 +128,9 @@ def play_game(
 
     targeting_item = None
 
-    while not libtcod.console_is_window_closed():
-        libtcod.sys_check_for_event(
-            libtcod.EVENT_KEY_PRESS | libtcod.EVENT_MOUSE, key, mouse
+    while not tcod.console_is_window_closed():
+        tcod.sys_check_for_event(
+            tcod.EVENT_KEY_PRESS | tcod.EVENT_MOUSE, key, mouse
         )
 
         if fov_recompute:
@@ -165,7 +164,7 @@ def play_game(
 
         fov_recompute = False
 
-        libtcod.console_flush()
+        tcod.console_flush()
 
         clear_all(con, entities)
 
@@ -221,7 +220,7 @@ def play_game(
                     break
             else:
                 message_log.add_message(
-                    Message("There is nothing here to pick up.", libtcod.yellow)
+                    Message("There is nothing here to pick up.", tcod.yellow)
                 )
 
         if show_inventory:
@@ -241,7 +240,8 @@ def play_game(
 
             if game_state == GameStates.SHOW_INVENTORY:
                 player_turn_results.extend(
-                    player.inventory.use(item, entities=entities, fov_map=fov_map)
+                    player.inventory.use(
+                        item, entities=entities, fov_map=fov_map)
                 )
             elif game_state == GameStates.DROP_INVENTORY:
                 player_turn_results.extend(player.inventory.drop_item(item))
@@ -249,7 +249,8 @@ def play_game(
         if take_stairs and game_state == GameStates.PLAYERS_TURN:
             for entity in entities:
                 if entity.stairs and entity.x == player.x and entity.y == player.y:
-                    entities = game_map.next_floor(player, message_log, constants)
+                    entities = game_map.next_floor(
+                        player, message_log, constants)
                     fov_map = initialize_fov(game_map)
                     fov_recompute = True
                     con.clear(fg=(63, 127, 63))
@@ -257,7 +258,7 @@ def play_game(
                     break
             else:
                 message_log.add_message(
-                    Message("There are no stairs here.", libtcod.yellow)
+                    Message("There are no stairs here.", tcod.yellow)
                 )
 
         if level_up:
@@ -305,7 +306,7 @@ def play_game(
                 return True
 
         if fullscreen:
-            libtcod.console_set_fullscreen(not libtcod.console_is_fullscreen())
+            tcod.console_set_fullscreen(not tcod.console_is_fullscreen())
 
         for player_turn_result in player_turn_results:
             message = player_turn_result.get("message")
@@ -351,12 +352,14 @@ def play_game(
 
                     if equipped:
                         message_log.add_message(
-                            Message("You equipped the {0}".format(equipped.name))
+                            Message("You equipped the {0}".format(
+                                equipped.name))
                         )
 
                     if dequipped:
                         message_log.add_message(
-                            Message("You dequipped the {0}".format(dequipped.name))
+                            Message("You dequipped the {0}".format(
+                                dequipped.name))
                         )
 
                 game_state = GameStates.ENEMY_TURN
@@ -387,7 +390,7 @@ def play_game(
                                 player.level.current_level
                             )
                             + "!",
-                            libtcod.yellow,
+                            tcod.yellow,
                         )
                     )
                     previous_game_state = game_state

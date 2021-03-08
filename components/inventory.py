@@ -1,6 +1,4 @@
-import sys
-
-import tcod as libtcod
+import tcod
 
 from game_messages import Message
 
@@ -19,7 +17,7 @@ class Inventory:
                     "item_added": None,
                     "message": Message(
                         "You cannot carry any more, your inventory is full",
-                        libtcod.yellow,
+                        tcod.yellow,
                     ),
                 }
             )
@@ -28,7 +26,7 @@ class Inventory:
                 {
                     "item_added": item,
                     "message": Message(
-                        "You pick up the {0}!".format(item.name), libtcod.blue
+                        "You pick up the {0}!".format(item.name), tcod.blue
                     ),
                 }
             )
@@ -52,7 +50,7 @@ class Inventory:
                     {
                         "message": Message(
                             "The {0} cannot be used".format(item_entity.name),
-                            libtcod.yellow,
+                            tcod.yellow,
                         )
                     }
                 )
@@ -64,7 +62,8 @@ class Inventory:
                 results.append({"targeting": item_entity})
             else:
                 kwargs = {**item_component.function_kwargs, **kwargs}
-                item_use_results = item_component.use_function(self.owner, **kwargs)
+                item_use_results = item_component.use_function(
+                    self.owner, **kwargs)
 
                 for item_use_result in item_use_results:
                     if item_use_result.get("consumed"):
@@ -94,7 +93,7 @@ class Inventory:
             {
                 "item_dropped": item,
                 "message": Message(
-                    "You dropped the {0}".format(item.name), libtcod.yellow
+                    "You dropped the {0}".format(item.name), tcod.yellow
                 ),
             }
         )

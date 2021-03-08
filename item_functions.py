@@ -1,6 +1,4 @@
-import sys
-
-import tcod as libtcod
+import tcod
 
 from components.ai import ConfusedMonster
 from game_messages import Message
@@ -16,7 +14,7 @@ def heal(*args, **kwargs):
         results.append(
             {
                 "consumed": False,
-                "message": Message("You are already at full health", libtcod.yellow),
+                "message": Message("You are already at full health", tcod.yellow),
             }
         )
     else:
@@ -24,7 +22,7 @@ def heal(*args, **kwargs):
         results.append(
             {
                 "consumed": True,
-                "message": Message("Your wounds start to feel better!", libtcod.green),
+                "message": Message("Your wounds start to feel better!", tcod.green),
             }
         )
 
@@ -47,7 +45,7 @@ def cast_lightning(*args, **kwargs):
         if (
             entity.fighter
             and entity != caster
-            and libtcod.map_is_in_fov(fov_map, entity.x, entity.y)
+            and tcod.map_is_in_fov(fov_map, entity.x, entity.y)
         ):
             distance = caster.distance_to(entity)
 
@@ -73,7 +71,7 @@ def cast_lightning(*args, **kwargs):
             {
                 "consumed": False,
                 "target": None,
-                "message": Message("No enemy is close enough to strike.", libtcod.red),
+                "message": Message("No enemy is close enough to strike.", tcod.red),
             }
         )
 
@@ -90,13 +88,13 @@ def cast_fireball(*args, **kwargs):
 
     results = []
 
-    if not libtcod.map_is_in_fov(fov_map, target_x, target_y):
+    if not tcod.map_is_in_fov(fov_map, target_x, target_y):
         results.append(
             {
                 "consumed": False,
                 "message": Message(
                     "You cannot target a tile outside your field of view.",
-                    libtcod.yellow,
+                    tcod.yellow,
                 ),
             }
         )
@@ -109,7 +107,7 @@ def cast_fireball(*args, **kwargs):
                 "The fireball explodes, burning everything within {0} tiles!".format(
                     radius
                 ),
-                libtcod.orange,
+                tcod.orange,
             ),
         }
     )
@@ -122,7 +120,7 @@ def cast_fireball(*args, **kwargs):
                         "The {0} gets burned for {1} hit points.".format(
                             entity.name, damage
                         ),
-                        libtcod.orange,
+                        tcod.orange,
                     )
                 }
             )
@@ -139,13 +137,13 @@ def cast_confuse(*args, **kwargs):
 
     results = []
 
-    if not libtcod.map_is_in_fov(fov_map, target_x, target_y):
+    if not tcod.map_is_in_fov(fov_map, target_x, target_y):
         results.append(
             {
                 "consumed": False,
                 "message": Message(
                     "You cannot target a tile outside your field of view.",
-                    libtcod.yellow,
+                    tcod.yellow,
                 ),
             }
         )
@@ -165,7 +163,7 @@ def cast_confuse(*args, **kwargs):
                         "The eyes of the {0} look vacant, as he starts to stumble around!".format(
                             entity.name
                         ),
-                        libtcod.light_green,
+                        tcod.light_green,
                     ),
                 }
             )
@@ -176,7 +174,7 @@ def cast_confuse(*args, **kwargs):
             {
                 "consumed": False,
                 "message": Message(
-                    "There is no targetable enemy at that location.", libtcod.yellow
+                    "There is no targetable enemy at that location.", tcod.yellow
                 ),
             }
         )
