@@ -1,101 +1,25 @@
-import tcod
+from __future__ import annotations
 
-from game_messages import Message
+from typing import List, TYPE_CHECKING
+
+from components.base_component import BaseComponent
+
+if TYPE_CHECKING:
+    from entity import Actor, Item
 
 
-class Inventory:
-    def __init__(self, capacity):
+class Inventory(BaseComponent):
+    parent: Actor
+
+    def __init__(self, capacity: int):
         self.capacity = capacity
-        self.items = []
+        self.items: List[Item] = []
 
-    def add_item(self, item):
-        results = []
-
-        if len(self.items) >= self.capacity:
-            results.append(
-                {
-                    "item_added": None,
-                    "message": Message(
-                        "You cannot carry any more, your inventory is full",
-                        tcod.yellow,
-                    ),
-                }
-            )
-        else:
-            results.append(
-                {
-                    "item_added": item,
-                    "message": Message(
-                        "You pick up the {0}!".format(item.name), tcod.blue
-                    ),
-                }
-            )
-
-            self.items.append(item)
-
-        return results
-
-    def use(self, item_entity, **kwargs):
-        results = []
-
-        item_component = item_entity.item
-
-        if item_component.use_function is None:
-            equippable_component = item_entity.equippable
-
-            if equippable_component:
-                results.append({"equip": item_entity})
-            else:
-                results.append(
-                    {
-                        "message": Message(
-                            "The {0} cannot be used".format(item_entity.name),
-                            tcod.yellow,
-                        )
-                    }
-                )
-
-        else:
-            if item_component.targeting and not (
-                kwargs.get("target_x") or kwargs.get("target_y")
-            ):
-                results.append({"targeting": item_entity})
-            else:
-                kwargs = {**item_component.function_kwargs, **kwargs}
-                item_use_results = item_component.use_function(
-                    self.owner, **kwargs)
-
-                for item_use_result in item_use_results:
-                    if item_use_result.get("consumed"):
-                        self.remove_item(item_entity)
-
-                results.extend(item_use_results)
-
-        return results
-
-    def remove_item(self, item):
+    def drop(self, item: Item) -> None:
+        """
+        Removes an item from the inventory and restores it to the game map, at the player's current location.
+        """
         self.items.remove(item)
+        item.place(self.parent.x, self.parent.y, self.gamemap)
 
-    def drop_item(self, item):
-        results = []
-
-        if (
-            self.owner.equipment.main_hand == item
-            or self.owner.equipment.off_hand == item
-        ):
-            self.owner.equipment.toggle_equip(item)
-
-        item.x = self.owner.x
-        item.y = self.owner.y
-
-        self.remove_item(item)
-        results.append(
-            {
-                "item_dropped": item,
-                "message": Message(
-                    "You dropped the {0}".format(item.name), tcod.yellow
-                ),
-            }
-        )
-
-        return results
+        self.engine.message_log.add_message(f"You dropped the {item.name}.")

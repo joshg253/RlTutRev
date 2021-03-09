@@ -1,6 +1,8 @@
 # RlTutRev
 
-Following the [Roguelike Tutorial Revised](https://www.reddit.com/r/roguelikedev/comments/8ql895/roguelikedev_does_the_complete_roguelike_tutorial/)
+~~Following the [Roguelike Tutorial Revised](https://www.reddit.com/r/roguelikedev/comments/8ql895/roguelikedev_does_the_complete_roguelike_tutorial/)~~
+
+Re-based using https://github.com/TStand90/tcod_tutorial_v2
 
 ## My Notes
 

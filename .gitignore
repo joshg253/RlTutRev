@@ -120,6 +120,7 @@ venv.bak/
 ### Windows ###
 # Windows thumbnail cache files
 Thumbs.db
+Thumbs.db:encryptable
 ehthumbs.db
 ehthumbs_vista.db
 
@@ -145,5 +146,18 @@ $RECYCLE.BIN/
 
 # End of https://www.gitignore.io/api/python,windows,visualstudiocode
 
+
 # savegame files
 savegame.*
+
+# PyCharm files
+.idea
+
+# Python cache
+__pycache__
+
+# Python virtual environment
+venv
+
+# Saved games
+*.sav

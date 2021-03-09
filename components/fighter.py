@@ -1,86 +1,89 @@
-import tcod
+from __future__ import annotations
 
-from game_messages import Message
+from typing import TYPE_CHECKING
+
+import color
+from components.base_component import BaseComponent
+from render_order import RenderOrder
+
+if TYPE_CHECKING:
+    from entity import Actor
 
 
-class Fighter:
-    def __init__(self, hp, defense, power, xp=0):
-        self.base_max_hp = hp
-        self.hp = hp
-        self.base_defense = defense
-        self.base_power = power
-        self.xp = xp
+class Fighter(BaseComponent):
+    parent: Actor
 
-    @property
-    def max_hp(self):
-        if self.owner and self.owner.equipment:
-            bonus = self.owner.equipment.max_hp_bonus
-        else:
-            bonus = 0
-
-        return self.base_max_hp + bonus
-
-    @property
-    def power(self):
-        if self.owner and self.owner.equipment:
-            bonus = self.owner.equipment.power_bonus
-        else:
-            bonus = 0
-
-        return self.base_power + bonus
+    def __init__(self, hp: int, base_defense: int, base_power: int):
+        self.max_hp = hp
+        self._hp = hp
+        self.base_defense = base_defense
+        self.base_power = base_power
 
     @property
-    def defense(self):
-        if self.owner and self.owner.equipment:
-            bonus = self.owner.equipment.defense_bonus
+    def hp(self) -> int:
+        return self._hp
+
+    @hp.setter
+    def hp(self, value: int) -> None:
+        self._hp = max(0, min(value, self.max_hp))
+        if self._hp == 0 and self.parent.ai:
+            self.die()
+
+    @property
+    def defense(self) -> int:
+        return self.base_defense + self.defense_bonus
+
+    @property
+    def power(self) -> int:
+        return self.base_power + self.power_bonus
+
+    @property
+    def defense_bonus(self) -> int:
+        if self.parent.equipment:
+            return self.parent.equipment.defense_bonus
         else:
-            bonus = 0
+            return 0
 
-        return self.base_defense + bonus
+    @property
+    def power_bonus(self) -> int:
+        if self.parent.equipment:
+            return self.parent.equipment.power_bonus
+        else:
+            return 0
 
-    def take_damage(self, amount):
-        results = []
+    def die(self) -> None:
+        if self.engine.player is self.parent:
+            death_message = "You died!"
+            death_message_color = color.player_die
+        else:
+            death_message = f"{self.parent.name} is dead!"
+            death_message_color = color.enemy_die
 
+        self.parent.char = "%"
+        self.parent.color = (191, 0, 0)
+        self.parent.blocks_movement = False
+        self.parent.ai = None
+        self.parent.name = f"remains of {self.parent.name}"
+        self.parent.render_order = RenderOrder.CORPSE
+
+        self.engine.message_log.add_message(death_message, death_message_color)
+
+        self.engine.player.level.add_xp(self.parent.level.xp_given)
+
+    def heal(self, amount: int) -> int:
+        if self.hp == self.max_hp:
+            return 0
+
+        new_hp_value = self.hp + amount
+
+        if new_hp_value > self.max_hp:
+            new_hp_value = self.max_hp
+
+        amount_recovered = new_hp_value - self.hp
+
+        self.hp = new_hp_value
+
+        return amount_recovered
+
+    def take_damage(self, amount: int) -> None:
         self.hp -= amount
-
-        if self.hp <= 0:
-            results.append({"dead": self.owner, "xp": self.xp})
-
-        return results
-
-    def heal(self, amount):
-        self.hp += amount
-
-        if self.hp > self.max_hp:
-            self.hp = self.max_hp
-
-    def attack(self, target):
-        results = []
-
-        damage = self.power - target.fighter.defense
-
-        if damage > 0:
-            results.append(
-                {
-                    "message": Message(
-                        "{0} attacks {1} for {2} hit points.".format(
-                            self.owner.name.capitalize(), target.name, str(damage)
-                        ),
-                        tcod.white,
-                    )
-                }
-            )
-            results.extend(target.fighter.take_damage(damage))
-        else:
-            results.append(
-                {
-                    "message": Message(
-                        "{0} attacks {1} but does no damage.".format(
-                            self.owner.name.capitalize(), target.name
-                        ),
-                        tcod.white,
-                    )
-                }
-            )
-
-        return results

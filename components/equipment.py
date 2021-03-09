@@ -1,71 +1,87 @@
-from equipment_slots import EquipmentSlots
+from __future__ import annotations
+
+from typing import Optional, TYPE_CHECKING
+
+from components.base_component import BaseComponent
+from equipment_types import EquipmentType
+
+if TYPE_CHECKING:
+    from entity import Actor, Item
 
 
-class Equipment:
-    def __init__(self, main_hand=None, off_hand=None):
-        self.main_hand = main_hand
-        self.off_hand = off_hand
+class Equipment(BaseComponent):
+    parent: Actor
+
+    def __init__(self, weapon: Optional[Item] = None, armor: Optional[Item] = None):
+        self.weapon = weapon
+        self.armor = armor
 
     @property
-    def max_hp_bonus(self):
+    def defense_bonus(self) -> int:
         bonus = 0
 
-        if self.main_hand and self.main_hand.equippable:
-            bonus += self.main_hand.equippable.max_hp_bonus
+        if self.weapon is not None and self.weapon.equippable is not None:
+            bonus += self.weapon.equippable.defense_bonus
 
-        if self.off_hand and self.off_hand.equippable:
-            bonus += self.off_hand.equippable.max_hp_bonus
+        if self.armor is not None and self.armor.equippable is not None:
+            bonus += self.armor.equippable.defense_bonus
 
         return bonus
 
     @property
-    def power_bonus(self):
+    def power_bonus(self) -> int:
         bonus = 0
 
-        if self.main_hand and self.main_hand.equippable:
-            bonus += self.main_hand.equippable.power_bonus
+        if self.weapon is not None and self.weapon.equippable is not None:
+            bonus += self.weapon.equippable.power_bonus
 
-        if self.off_hand and self.off_hand.equippable:
-            bonus += self.off_hand.equippable.power_bonus
+        if self.armor is not None and self.armor.equippable is not None:
+            bonus += self.armor.equippable.power_bonus
 
         return bonus
 
-    @property
-    def defense_bonus(self):
-        bonus = 0
+    def item_is_equipped(self, item: Item) -> bool:
+        return self.weapon == item or self.armor == item
 
-        if self.main_hand and self.main_hand.equippable:
-            bonus += self.main_hand.equippable.defense_bonus
+    def unequip_message(self, item_name: str) -> None:
+        self.parent.gamemap.engine.message_log.add_message(
+            f"You remove the {item_name}."
+        )
 
-        if self.off_hand and self.off_hand.equippable:
-            bonus += self.off_hand.equippable.defense_bonus
+    def equip_message(self, item_name: str) -> None:
+        self.parent.gamemap.engine.message_log.add_message(
+            f"You equip the {item_name}."
+        )
 
-        return bonus
+    def equip_to_slot(self, slot: str, item: Item, add_message: bool) -> None:
+        current_item = getattr(self, slot)
 
-    def toggle_equip(self, equippable_entity):
-        results = []
+        if current_item is not None:
+            self.unequip_from_slot(slot, add_message)
 
-        slot = equippable_entity.equippable.slot
+        setattr(self, slot, item)
 
-        if slot == EquipmentSlots.MAIN_HAND:
-            if self.main_hand == equippable_entity:
-                self.main_hand = None
-                results.append({"dequipped": equippable_entity})
-            else:
-                if self.main_hand:
-                    results.append({"dequipped": self.main_hand})
+        if add_message:
+            self.equip_message(item.name)
 
-                self.main_hand = equippable_entity
-                results.append({"equipped": equippable_entity})
-        elif slot == EquipmentSlots.OFF_HAND:
-            if self.off_hand == equippable_entity:
-                self.off_hand = None
-                results.append({"dequipped": equippable_entity})
-            else:
-                if self.off_hand:
-                    results.append({"dequipped": self.off_hand})
+    def unequip_from_slot(self, slot: str, add_message: bool) -> None:
+        current_item = getattr(self, slot)
 
-                self.off_hand = equippable_entity
-                results.append({"equipped": equippable_entity})
+        if add_message:
+            self.unequip_message(current_item.name)
 
-        return results
+        setattr(self, slot, None)
+
+    def toggle_equip(self, equippable_item: Item, add_message: bool = True) -> None:
+        if (
+            equippable_item.equippable
+            and equippable_item.equippable.equipment_type == EquipmentType.WEAPON
+        ):
+            slot = "weapon"
+        else:
+            slot = "armor"
+
+        if getattr(self, slot) == equippable_item:
+            self.unequip_from_slot(slot, add_message)
+        else:
+            self.equip_to_slot(slot, equippable_item, add_message)
