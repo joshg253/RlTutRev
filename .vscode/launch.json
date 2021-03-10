@@ -5,10 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: engine.py",
+            "name": "Python: main.py",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/engine.py"
+            "program": "${workspaceFolder}/main.py"
         }
     ]
 }
