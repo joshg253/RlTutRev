@@ -76,8 +76,7 @@ class Fighter(BaseComponent):
 
         new_hp_value = self.hp + amount
 
-        if new_hp_value > self.max_hp:
-            new_hp_value = self.max_hp
+        new_hp_value = min(new_hp_value, self.max_hp)
 
         amount_recovered = new_hp_value - self.hp
 

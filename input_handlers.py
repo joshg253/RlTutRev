@@ -196,11 +196,7 @@ class CharacterScreenEventHandler(AskUserEventHandler):
     def on_render(self, console: tcod.Console) -> None:
         super().on_render(console)
 
-        if self.engine.player.x <= 30:
-            x = 40
-        else:
-            x = 0
-
+        x = 40 if self.engine.player.x <= 30 else 0
         y = 0
 
         width = len(self.TITLE) + 4
@@ -242,11 +238,7 @@ class LevelUpEventHandler(AskUserEventHandler):
     def on_render(self, console: tcod.Console) -> None:
         super().on_render(console)
 
-        if self.engine.player.x <= 30:
-            x = 40
-        else:
-            x = 0
-
+        x = 40 if self.engine.player.x <= 30 else 0
         console.draw_frame(
             x=x,
             y=0,
@@ -323,14 +315,9 @@ class InventoryEventHandler(AskUserEventHandler):
 
         height = number_of_items_in_inventory + 2
 
-        if height <= 3:
-            height = 3
+        height = max(height, 3)
 
-        if self.engine.player.x <= 30:
-            x = 40
-        else:
-            x = 0
-
+        x = 40 if self.engine.player.x <= 30 else 0
         y = 0
 
         width = len(self.TITLE) + 4
@@ -450,9 +437,8 @@ class SelectIndexHandler(AskUserEventHandler):
         self, event: tcod.event.MouseButtonDown
     ) -> Optional[ActionOrHandler]:
         """Left click confirms a selection."""
-        if self.engine.game_map.in_bounds(*event.tile):
-            if event.button == 1:
-                return self.on_index_selected(*event.tile)
+        if self.engine.game_map.in_bounds(*event.tile) and event.button == 1:
+            return self.on_index_selected(*event.tile)
         return super().ev_mousebuttondown(event)
 
     def on_index_selected(self, x: int, y: int) -> Optional[ActionOrHandler]:

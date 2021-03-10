@@ -75,11 +75,9 @@ def get_entities_at_random(
     entities = list(entity_weighted_chances.keys())
     entity_weighted_chance_values = list(entity_weighted_chances.values())
 
-    chosen_entities = random.choices(
+    return random.choices(
         entities, weights=entity_weighted_chance_values, k=number_of_entities
     )
-
-    return chosen_entities
 
 
 class RectangularRoom:
@@ -170,7 +168,7 @@ def generate_dungeon(
 
     center_of_last_room = (0, 0)
 
-    for r in range(max_rooms):
+    for _ in range(max_rooms):
         room_width = random.randint(room_min_size, room_max_size)
         room_height = random.randint(room_min_size, room_max_size)
 
@@ -188,7 +186,7 @@ def generate_dungeon(
         # Dig out this rooms inner area.
         dungeon.tiles[new_room.inner] = tile_types.floor
 
-        if len(rooms) == 0:
+        if not rooms:
             # The first room, where the player starts.
             player.place(*new_room.center, dungeon)
         else:  # All rooms after the first.
