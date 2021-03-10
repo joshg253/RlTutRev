@@ -30,4 +30,27 @@
             }
         ]
     },
+    "cSpell.words": [
+        "BKGND",
+        "KMOD",
+        "LALT",
+        "LCTRL",
+        "PAGEUP",
+        "RALT",
+        "RCTRL",
+        "blit",
+        "bresenham",
+        "condlist",
+        "dejavu",
+        "dtype",
+        "equippable",
+        "lzma",
+        "ndarray",
+        "numpy",
+        "struct",
+        "tcod",
+        "tolist",
+        "unequip",
+        "vsync"
+    ],
 }

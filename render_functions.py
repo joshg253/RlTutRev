@@ -15,15 +15,15 @@ def get_names_at_location(x: int, y: int, game_map: GameMap) -> str:
         return ""
 
     names = ", ".join(
-        entity.name for entity in game_map.entities if entity.x == x and entity.y == y
+        entity.name for entity in game_map.entities if (
+            entity.x == x and entity.y == y)
     )
 
     return names.capitalize()
 
 
-def render_bar(
-    console: Console, current_value: int, maximum_value: int, total_width: int
-) -> None:
+def render_bar(console: Console, current_value: int, maximum_value: int,
+               total_width: int) -> None:
     bar_width = int(float(current_value) / maximum_value * total_width)
 
     console.draw_rect(x=0, y=45, width=20, height=1, ch=1, bg=color.bar_empty)
@@ -33,14 +33,13 @@ def render_bar(
             x=0, y=45, width=bar_width, height=1, ch=1, bg=color.bar_filled
         )
 
-    console.print(
-        x=1, y=45, string=f"HP: {current_value}/{maximum_value}", fg=color.bar_text
-    )
+    console.print(x=1, y=45, string=f"HP: {current_value}/{maximum_value}",
+                  fg=color.bar_text
+                  )
 
 
-def render_dungeon_level(
-    console: Console, dungeon_level: int, location: Tuple[int, int]
-) -> None:
+def render_dungeon_level(console: Console, dungeon_level: int,
+                         location: Tuple[int, int]) -> None:
     """
     Render the level the player is currently on, at the given location.
     """
@@ -49,9 +48,8 @@ def render_dungeon_level(
     console.print(x=x, y=y, string=f"Dungeon level: {dungeon_level}")
 
 
-def render_names_at_mouse_location(
-    console: Console, x: int, y: int, engine: Engine
-) -> None:
+def render_names_at_mouse_location(console: Console, x: int, y: int,
+                                   engine: Engine) -> None:
     mouse_x, mouse_y = engine.mouse_location
 
     names_at_mouse_location = get_names_at_location(

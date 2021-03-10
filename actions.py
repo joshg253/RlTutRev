@@ -11,7 +11,10 @@ if TYPE_CHECKING:
 
 
 class Action:
-    def __init__(self, entity: Actor) -> None:
+    def __init__(
+            self,
+            entity: Actor
+    ) -> None:
         super().__init__()
         self.entity = entity
 
@@ -22,11 +25,8 @@ class Action:
 
     def perform(self) -> None:
         """Perform this action with the objects needed to determine its scope.
-
-        `self.engine` is the scope this action is being performed in.
-
-        `self.entity` is the object performing the action.
-
+        self.engine is the scope this action is being performed in.
+        self.entity is the object performing the action.
         This method must be overridden by Action subclasses.
         """
         raise NotImplementedError()
@@ -35,7 +35,10 @@ class Action:
 class PickupAction(Action):
     """Pickup an item and add it to the inventory, if there is room for it."""
 
-    def __init__(self, entity: Actor):
+    def __init__(
+            self,
+            entity: Actor
+    ):
         super().__init__(entity)
 
     def perform(self) -> None:
@@ -52,7 +55,8 @@ class PickupAction(Action):
                 item.parent = self.entity.inventory
                 inventory.items.append(item)
 
-                self.engine.message_log.add_message(f"You picked up the {item.name}!")
+                self.engine.message_log.add_message(
+                    f"You picked up the {item.name}!")
                 return
 
         raise exceptions.Impossible("There is nothing here to pick up.")
@@ -60,7 +64,10 @@ class PickupAction(Action):
 
 class ItemAction(Action):
     def __init__(
-        self, entity: Actor, item: Item, target_xy: Optional[Tuple[int, int]] = None
+        self,
+        entity: Actor,
+        item: Item,
+        target_xy: Optional[Tuple[int, int]] = None
     ):
         super().__init__(entity)
         self.item = item
@@ -74,7 +81,7 @@ class ItemAction(Action):
         return self.engine.game_map.get_actor_at_location(*self.target_xy)
 
     def perform(self) -> None:
-        """Invoke the items ability, this action will be given to provide context."""
+        """Invoke item's ability, action will be given to provide context."""
         if self.item.consumable:
             self.item.consumable.activate(self)
 
@@ -88,7 +95,11 @@ class DropItem(ItemAction):
 
 
 class EquipAction(Action):
-    def __init__(self, entity: Actor, item: Item):
+    def __init__(
+            self,
+            entity: Actor,
+            item: Item
+    ):
         super().__init__(entity)
 
         self.item = item
@@ -107,17 +118,24 @@ class TakeStairsAction(Action):
         """
         Take the stairs, if any exist at the entity's location.
         """
-        if (self.entity.x, self.entity.y) == self.engine.game_map.downstairs_location:
-            self.engine.game_world.generate_floor()
-            self.engine.message_log.add_message(
-                "You descend the staircase.", color.descend
-            )
-        else:
+        if (
+            self.entity.x, self.entity.y
+        ) != self.engine.game_map.downstairs_location:
             raise exceptions.Impossible("There are no stairs here.")
+
+        self.engine.game_world.generate_floor()
+        self.engine.message_log.add_message(
+            "You descend the staircase.", color.descend
+        )
 
 
 class ActionWithDirection(Action):
-    def __init__(self, entity: Actor, dx: int, dy: int):
+    def __init__(
+            self,
+            entity: Actor,
+            dx: int,
+            dy: int
+    ):
         super().__init__(entity)
 
         self.dx = dx
@@ -131,7 +149,8 @@ class ActionWithDirection(Action):
     @property
     def blocking_entity(self) -> Optional[Entity]:
         """Return the blocking entity at this actions destination.."""
-        return self.engine.game_map.get_blocking_entity_at_location(*self.dest_xy)
+        return self.engine.game_map.get_blocking_entity_at_location(
+            *self.dest_xy)
 
     @property
     def target_actor(self) -> Optional[Actor]:
@@ -177,7 +196,8 @@ class MovementAction(ActionWithDirection):
         if not self.engine.game_map.tiles["walkable"][dest_x, dest_y]:
             # Destination is blocked by a tile.
             raise exceptions.Impossible("That way is blocked.")
-        if self.engine.game_map.get_blocking_entity_at_location(dest_x, dest_y):
+        if self.engine.game_map.get_blocking_entity_at_location(
+                dest_x, dest_y):
             # Destination is blocked by an entity.
             raise exceptions.Impossible("That way is blocked.")
 

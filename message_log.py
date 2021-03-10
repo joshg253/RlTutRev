@@ -7,7 +7,11 @@ import color
 
 
 class Message:
-    def __init__(self, text: str, fg: Tuple[int, int, int]):
+    def __init__(
+            self,
+            text: str,
+            fg: Tuple[int, int, int]
+    ):
         self.plain_text = text
         self.fg = fg
         self.count = 1
@@ -21,17 +25,17 @@ class Message:
 
 
 class MessageLog:
-    def __init__(self) -> None:
+    def __init__(
+        self
+    ) -> None:
         self.messages: List[Message] = []
 
     def add_message(
-        self, text: str, fg: Tuple[int, int, int] = color.white, *, stack: bool = True,
-    ) -> None:
+            self, text: str, fg: Tuple[int, int, int] = color.white, *,
+            stack: bool = True) -> None:
         """Add a message to this log.
-
-        `text` is the message text, `fg` is the text color.
-
-        If `stack` is True then the message can stack with a previous message
+        'text' is the message text, 'fg' is the text color.
+        If 'stack' is True then the message can stack with a previous message
         of the same text.
         """
         if stack and self.messages and text == self.messages[-1].plain_text:
@@ -43,9 +47,8 @@ class MessageLog:
         self, console: tcod.Console, x: int, y: int, width: int, height: int,
     ) -> None:
         """Render this log over the given area.
-
-        `x`, `y`, `width`, `height` is the rectangular region to render onto
-        the `console`.
+        'x', 'y', 'width', 'height' is the rectangular region to render onto
+        the 'console'.
         """
         self.render_messages(console, x, y, width, height, self.messages)
 
@@ -53,9 +56,7 @@ class MessageLog:
     def wrap(string: str, width: int) -> Iterable[str]:
         """Return a wrapped text message."""
         for line in string.splitlines():  # Handle newlines in messages.
-            yield from textwrap.wrap(
-                line, width, expand_tabs=True,
-            )
+            yield from textwrap.wrap(line, width, expand_tabs=True)
 
     @classmethod
     def render_messages(
@@ -69,7 +70,7 @@ class MessageLog:
     ) -> None:
         """Render the messages provided.
 
-        The `messages` are rendered starting at the last message and working
+        The 'messages' are rendered starting at the last message and working
         backwards.
         """
         y_offset = height - 1

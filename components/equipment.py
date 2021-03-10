@@ -12,7 +12,10 @@ if TYPE_CHECKING:
 class Equipment(BaseComponent):
     parent: Actor
 
-    def __init__(self, weapon: Optional[Item] = None, armor: Optional[Item] = None):
+    def __init__(
+            self, weapon: Optional[Item] = None,
+            armor: Optional[Item] = None
+    ):
         self.weapon = weapon
         self.armor = armor
 
@@ -72,16 +75,14 @@ class Equipment(BaseComponent):
 
         setattr(self, slot, None)
 
-    def toggle_equip(self, equippable_item: Item, add_message: bool = True) -> None:
-        if (
-            equippable_item.equippable
-            and equippable_item.equippable.equipment_type == EquipmentType.WEAPON
-        ):
+    def toggle_equip(self, item: Item, add_message: bool = True) -> None:
+        if (item.equippable and
+                item.equippable.equipment_type == EquipmentType.WEAPON):
             slot = "weapon"
         else:
             slot = "armor"
 
-        if getattr(self, slot) == equippable_item:
+        if getattr(self, slot) == item:
             self.unequip_from_slot(slot, add_message)
         else:
-            self.equip_to_slot(slot, equippable_item, add_message)
+            self.equip_to_slot(slot, item, add_message)

@@ -63,7 +63,7 @@ class Entity:
         return clone
 
     def place(self, x: int, y: int, gamemap: Optional[GameMap] = None) -> None:
-        """Place this entitiy at a new location.  Handles moving across GameMaps."""
+        """Place entity at a new location.  Handles moving across GameMaps."""
         self.x = x
         self.y = y
         if gamemap:
@@ -75,7 +75,7 @@ class Entity:
 
     def distance(self, x: int, y: int) -> float:
         """
-        Return the distance between the current entity and the given (x, y) coordinate.
+        Return distance between current entity and the given (x, y) coordinate.
         """
         return math.sqrt((x - self.x) ** 2 + (y - self.y) ** 2)
 

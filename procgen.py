@@ -29,8 +29,10 @@ max_monsters_by_floor = [
 item_chances: Dict[int, List[Tuple[Entity, int]]] = {
     0: [(entity_factories.health_potion, 35)],
     2: [(entity_factories.confusion_scroll, 10)],
-    4: [(entity_factories.lightning_scroll, 25), (entity_factories.sword, 5)],
-    6: [(entity_factories.fireball_scroll, 25), (entity_factories.chain_mail, 15)],
+    4: [(entity_factories.lightning_scroll, 25),
+        (entity_factories.sword, 5)],
+    6: [(entity_factories.fireball_scroll, 25),
+        (entity_factories.chain_mail, 15)],
 }
 
 enemy_chances: Dict[int, List[Tuple[Entity, int]]] = {
@@ -75,15 +77,19 @@ def get_entities_at_random(
     entities = list(entity_weighted_chances.keys())
     entity_weighted_chance_values = list(entity_weighted_chances.values())
 
-    chosen_entities = random.choices(
+    return random.choices(
         entities, weights=entity_weighted_chance_values, k=number_of_entities
     )
 
-    return chosen_entities
-
 
 class RectangularRoom:
-    def __init__(self, x: int, y: int, width: int, height: int):
+    def __init__(
+        self,
+        x: int,
+        y: int,
+        width: int,
+        height: int
+    ):
         self.x1 = x
         self.y1 = y
         self.x2 = x + width
@@ -111,7 +117,8 @@ class RectangularRoom:
         )
 
 
-def place_entities(room: RectangularRoom, dungeon: GameMap, floor_number: int,) -> None:
+def place_entities(
+        room: RectangularRoom, dungeon: GameMap, floor_number: int,) -> None:
     number_of_monsters = random.randint(
         0, get_max_value_for_floor(max_monsters_by_floor, floor_number)
     )
@@ -130,13 +137,14 @@ def place_entities(room: RectangularRoom, dungeon: GameMap, floor_number: int,) 
         x = random.randint(room.x1 + 1, room.x2 - 1)
         y = random.randint(room.y1 + 1, room.y2 - 1)
 
-        if not any(entity.x == x and entity.y == y for entity in dungeon.entities):
+        if not any(
+                entity.x == x and entity.y == y for entity in dungeon.entities
+        ):
             entity.spawn(dungeon, x, y)
 
 
-def tunnel_between(
-    start: Tuple[int, int], end: Tuple[int, int]
-) -> Iterator[Tuple[int, int]]:
+def tunnel_between(start: Tuple[int, int], end: Tuple[int, int]) \
+        -> Iterator[Tuple[int, int]]:
     """Return an L-shaped tunnel between these two points."""
     x1, y1 = start
     x2, y2 = end
@@ -170,7 +178,7 @@ def generate_dungeon(
 
     center_of_last_room = (0, 0)
 
-    for r in range(max_rooms):
+    for _ in range(max_rooms):
         room_width = random.randint(room_min_size, room_max_size)
         room_height = random.randint(room_min_size, room_max_size)
 
@@ -188,7 +196,7 @@ def generate_dungeon(
         # Dig out this rooms inner area.
         dungeon.tiles[new_room.inner] = tile_types.floor
 
-        if len(rooms) == 0:
+        if not rooms:
             # The first room, where the player starts.
             player.place(*new_room.center, dungeon)
         else:  # All rooms after the first.

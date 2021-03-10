@@ -13,7 +13,11 @@ if TYPE_CHECKING:
 class Fighter(BaseComponent):
     parent: Actor
 
-    def __init__(self, hp: int, base_defense: int, base_power: int):
+    def __init__(
+            self, hp: int,
+            base_defense: int,
+            base_power: int
+    ):
         self.max_hp = hp
         self._hp = hp
         self.base_defense = base_defense
@@ -75,9 +79,7 @@ class Fighter(BaseComponent):
             return 0
 
         new_hp_value = self.hp + amount
-
-        if new_hp_value > self.max_hp:
-            new_hp_value = self.max_hp
+        new_hp_value = min(new_hp_value, self.max_hp)
 
         amount_recovered = new_hp_value - self.hp
 
